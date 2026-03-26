@@ -1,0 +1,40 @@
+# 后端 - Maven/Java
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+backend/*.jar
+backend/*.war
+backend/*.ear
+
+# 前端 - Node.js
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.*.local
+frontend/yarn-error.log
+frontend/yarn.lock
+frontend/package-lock.json
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.swp
+*.swo
+*~
+
+# 操作系统
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+logs/
+
+# 临时文件
+*.tmp
+*.bak
+*.swp
