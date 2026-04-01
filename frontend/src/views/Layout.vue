@@ -40,7 +40,8 @@
     <div class="main">
       <!-- 头部 -->
       <div class="header">
-        
+        <AnimatedBackground />
+
         <!-- 管理员模式：面包屑 -->
         <div class="breadcrumb" v-if="user.role === 'ADMIN'">
            <el-breadcrumb separator="/">
@@ -103,7 +104,7 @@
       <!-- 内容区域 -->
       <div class="content">
         <router-view v-slot="{ Component }">
-            <transition name="fade-transform" mode="out-in">
+            <transition name="fade-slide" mode="out-in">
                 <component :is="Component" />
             </transition>
         </router-view>
@@ -116,10 +117,12 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import AiAdvisor from '../components/AiAdvisor.vue'
-import 'animate.css' // 引入动画库
+import AnimatedBackground from '@/components/AnimatedBackground.vue'
+import anime from 'animejs'
+import 'animate.css'
 
 const router = useRouter()
 const route = useRoute()
@@ -158,6 +161,54 @@ const logout = () => {
 const navigateToRecord = (tabName) => {
     router.push({ path: '/layout/health-record', query: { tab: tabName } })
 }
+
+// anime.js: animate menu items on load
+function animateMenuItems() {
+  anime({
+    targets: '.el-menu-item, .el-sub-menu__title',
+    opacity: [0, 1],
+    translateY: [20, 0],
+    delay: anime.stagger(50, { start: 300 }),
+    duration: 400,
+    easing: 'easeOutQuad'
+  })
+}
+
+// anime.js: morphing logo animation on hover
+function animateLogo() {
+  const logo = document.querySelector('.nav-logo')
+  if (!logo) return
+
+  logo.addEventListener('mouseenter', () => {
+    anime({
+      targets: logo,
+      scale: [1, 1.1],
+      rotate: [0, 5],
+      duration: 300,
+      easing: 'easeOutElastic(1, .8)'
+    })
+  })
+
+  logo.addEventListener('mouseleave', () => {
+    anime({
+      targets: logo,
+      scale: [1.1, 1],
+      rotate: [5, 0],
+      duration: 300,
+      easing: 'easeOutQuad'
+    })
+  })
+}
+
+function initAnimations() {
+  animateMenuItems()
+  animateLogo()
+}
+
+onMounted(async () => {
+  await nextTick()
+  initAnimations()
+})
 </script>
 
 <style scoped>
@@ -199,12 +250,19 @@ const navigateToRecord = (tabName) => {
   justify-content: space-between;
   align-items: center;
   padding: 0 30px;
-  background: rgba(255, 255, 255, 0.95); /* 半透明白色背景 */
-  backdrop-filter: blur(10px); /* 毛玻璃效果 */
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
   box-shadow: 0 1px 4px rgba(0,21,41,0.08);
-  position: sticky;
-  top: 0;
+  position: relative;
+  overflow: hidden;
   z-index: 100;
+}
+
+.top-nav,
+.nav-logo,
+.user-info {
+  position: relative;
+  z-index: 1;
 }
 .content {
   flex: 1;
@@ -225,7 +283,7 @@ const navigateToRecord = (tabName) => {
   transition: color 0.3s;
 }
 .el-dropdown-link:hover {
-    color: #409EFF;
+    color: var(--color-primary);
 }
 .user-info {
     display: flex;
@@ -237,7 +295,7 @@ const navigateToRecord = (tabName) => {
     transition: transform 0.3s;
 }
 .user-avatar:hover {
-    transform: rotate(360deg);
+    transform: scale(1.08);
 }
 
 /* 顶部导航样式 */
@@ -248,12 +306,12 @@ const navigateToRecord = (tabName) => {
 }
 .nav-logo {
     font-size: 22px;
-    font-weight: bold;
+    font-weight: 600;
     margin-right: 40px;
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #409EFF; /* Logo 品牌色 */
+    color: var(--color-primary);
     cursor: pointer;
 }
 .logo-icon {
@@ -274,12 +332,12 @@ const navigateToRecord = (tabName) => {
     transition: all 0.3s;
 }
 :deep(.el-menu--horizontal > .el-menu-item:hover) {
-    color: #409EFF !important;
-    background-color: rgba(64, 158, 255, 0.05) !important;
+    color: var(--color-primary) !important;
+    background-color: rgba(16, 185, 129, 0.05) !important;
 }
 :deep(.el-menu--horizontal > .el-menu-item.is-active) {
-    color: #409EFF !important;
-    border-bottom: 2px solid #409EFF !important;
+    color: var(--color-primary) !important;
+    border-bottom: 2px solid var(--color-primary) !important;
     background-color: transparent !important;
 }
 :deep(.el-sub-menu__title) {
@@ -288,8 +346,8 @@ const navigateToRecord = (tabName) => {
     font-weight: 500;
 }
 :deep(.el-sub-menu__title:hover) {
-    color: #409EFF !important;
-    background-color: rgba(64, 158, 255, 0.05) !important;
+    color: var(--color-primary) !important;
+    background-color: rgba(16, 185, 129, 0.05) !important;
 }
 
 /* 管理员面包屑样式适配 */
@@ -302,16 +360,52 @@ const navigateToRecord = (tabName) => {
 }
 
 /* 路由切换动画 */
-.fade-transform-enter-active,
-.fade-transform-leave-active {
-  transition: all 0.4s ease;
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.2s ease;
 }
-.fade-transform-enter-from {
+.fade-slide-enter-from {
   opacity: 0;
-  transform: translateX(-20px);
+  transform: translateY(10px);
 }
-.fade-transform-leave-to {
+.fade-slide-leave-to {
   opacity: 0;
-  transform: translateX(20px);
+  transform: translateY(-10px);
+}
+
+/* Menu item initial opacity (before anime.js animation) */
+.el-menu-item,
+.el-sub-menu__title {
+  opacity: 0;
+}
+
+/* Responsive navigation */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 16px;
+  }
+
+  .nav-logo {
+    font-size: 18px;
+    margin-right: 16px;
+  }
+
+  .el-menu-horizontal {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0 12px;
+  }
+
+  .nav-logo .logo-text {
+    display: none;
+  }
+
+  .user-info {
+    margin-left: 8px;
+  }
 }
 </style>
