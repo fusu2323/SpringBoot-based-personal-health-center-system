@@ -2,7 +2,10 @@
   <div class="home-container">
     <!-- 欢迎横幅 -->
     <div class="welcome-banner">
-        尊敬的 <span>{{ user.nickname }}</span> 您好！欢迎使用本系统，祝您今天有个好心情！
+        <HealthParticleField class="particle-field" />
+        <div class="banner-content" style="position: relative; z-index: 1;">
+            尊敬的 <span>{{ user.nickname }}</span> 您好！欢迎使用本系统，祝您今天有个好心情！
+        </div>
     </div>
 
     <!-- AI 简报 -->
@@ -18,22 +21,22 @@
     </el-card>
 
     <!-- 统计图表区 -->
-    <el-row :gutter="20" class="chart-section">
-        <el-col :span="12">
+    <el-row :gutter="24" class="chart-section">
+        <el-col :xs="24" :sm="12" :md="12">
             <el-card shadow="hover">
-                <div id="bp-chart" style="width: 100%; height: 350px;"></div>
+                <div id="bp-chart" style="width: 100%; height: 300px;"></div>
             </el-card>
         </el-col>
-        <el-col :span="12">
+        <el-col :xs="24" :sm="12" :md="12">
             <el-card shadow="hover">
-                <div id="sport-chart" style="width: 100%; height: 350px;"></div>
+                <div id="sport-chart" style="width: 100%; height: 300px;"></div>
             </el-card>
         </el-col>
     </el-row>
 
     <!-- 底部信息区 -->
-    <el-row :gutter="20" class="info-section">
-        <el-col :span="12">
+    <el-row :gutter="24" class="info-section">
+        <el-col :xs="24" :sm="12" :md="12">
             <el-card shadow="hover" class="info-card">
                 <template #header>
                     <div class="card-header">
@@ -53,7 +56,7 @@
                 </div>
             </el-card>
         </el-col>
-        <el-col :span="12">
+        <el-col :xs="24" :sm="12" :md="12">
             <el-card shadow="hover" class="info-card">
                 <template #header>
                     <div class="card-header">
@@ -93,10 +96,12 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, nextTick, reactive, ref } from 'vue'
 import * as echarts from 'echarts'
+import anime from 'animejs'
 import request from '../utils/request'
 import MarkdownIt from 'markdown-it'
+import HealthParticleField from '@/components/HealthParticleField.vue'
 
 const md = new MarkdownIt()
 const user = JSON.parse(localStorage.getItem('user') || '{}').user || {}
@@ -110,11 +115,67 @@ const status = reactive({
 const reportContent = ref('')
 const loadingReport = ref(false)
 
-onMounted(() => {
+onMounted(async () => {
   loadData()
   loadNotice()
   loadReport()
+  await nextTick()
+  setTimeout(() => {
+    animateCardsEntrance()
+    initCardHoverEffects()
+    initStatusPulse()
+  }, 100)
 })
+
+function animateCardsEntrance() {
+  anime({
+    targets: '.home-container .el-card, .welcome-banner, .report-card, .chart-section .el-card, .info-section .el-card',
+    opacity: [0, 1],
+    translateY: [30, 0],
+    scale: [0.95, 1],
+    delay: anime.stagger(100, { start: 200 }),
+    duration: 600,
+    easing: 'easeOutQuart'
+  })
+}
+
+function initCardHoverEffects() {
+  const cards = document.querySelectorAll('.home-container .el-card')
+
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      anime({
+        targets: card,
+        scale: 1.03,
+        boxShadow: '0 8px 25px rgba(16, 185, 129, 0.25), 0 4px 10px rgba(0, 0, 0, 0.1)',
+        duration: 200,
+        easing: 'easeOutQuad'
+      })
+    })
+
+    card.addEventListener('mouseleave', () => {
+      anime({
+        targets: card,
+        scale: 1,
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.05)',
+        duration: 200,
+        easing: 'easeOutQuad'
+      })
+    })
+  })
+}
+
+function initStatusPulse() {
+  const doneItems = document.querySelectorAll('.status-done')
+  doneItems.forEach(item => {
+    anime({
+      targets: item,
+      scale: [1, 1.05, 1],
+      duration: 1000,
+      easing: 'easeInOutSine'
+    })
+  })
+}
 
 const loadData = () => {
     request.get(`/home/stats/${user.id}`).then(res => {
@@ -156,7 +217,7 @@ const loadReport = () => {
 const initBpChart = (data) => {
     const chart = echarts.init(document.getElementById('bp-chart'))
     const option = {
-        title: { text: '近7天身体指标血压变化', left: 'center' },
+        title: { text: '近7天身体指标血压变化', left: 'center', textStyle: { color: '#1E293B', fontSize: 18, fontWeight: 600 } },
         tooltip: { trigger: 'axis' },
         legend: { data: ['低压', '高压'], top: '30px' },
         xAxis: { type: 'category', data: data.dates },
@@ -172,16 +233,16 @@ const initBpChart = (data) => {
 const initSportChart = (data) => {
     const chart = echarts.init(document.getElementById('sport-chart'))
     const option = {
-        title: { text: '近7天运动时长变化', left: 'center' },
+        title: { text: '近7天运动时长变化', left: 'center', textStyle: { color: '#1E293B', fontSize: 18, fontWeight: 600 } },
         tooltip: { trigger: 'axis' },
         xAxis: { type: 'category', data: data.dates },
         yAxis: { type: 'value' },
         series: [
-            { 
-                name: '运动时长(分钟)', 
-                type: 'line', 
-                data: data.durations, 
-                smooth: true, 
+            {
+                name: '运动时长(分钟)',
+                type: 'line',
+                data: data.durations,
+                smooth: true,
                 areaStyle: { opacity: 0.3 },
                 itemStyle: { color: '#73C0DE' },
                 markPoint: {
@@ -202,21 +263,33 @@ const initSportChart = (data) => {
     padding: 0;
 }
 .welcome-banner {
-    background-color: white;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    padding: var(--card-padding);
+    margin-bottom: var(--spacing-lg);
+    background: linear-gradient(135deg, var(--color-bg-card) 0%, rgba(16, 185, 129, 0.08) 100%);
     font-size: 16px;
-    color: #666;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    color: var(--color-text-secondary);
+    opacity: 0;
 }
 .welcome-banner span {
     font-weight: bold;
-    color: #333;
+    color: var(--color-text-primary);
+}
+.particle-field {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 .report-card {
-    margin-bottom: 20px;
-    background: linear-gradient(to right, #ffffff, #f0f9eb);
+    margin-bottom: var(--spacing-lg);
+    background: linear-gradient(135deg, var(--color-bg-card) 0%, var(--color-primary-light) 100%);
+    border-radius: var(--card-radius);
+    opacity: 0;
 }
 .report-content {
     font-size: 15px;
@@ -225,17 +298,22 @@ const initSportChart = (data) => {
     min-height: 80px;
 }
 .chart-section {
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-lg);
+}
+.chart-section .el-card {
+    opacity: 0;
 }
 .info-section .el-card {
-    height: 400px;
+    min-height: 350px;
     overflow-y: auto;
+    opacity: 0;
 }
 .card-header {
-    font-weight: bold;
+    font-weight: 600;
     font-size: 18px;
     display: flex;
     align-items: center;
+    color: var(--color-text-primary);
 }
 .notice-item {
     display: flex;
@@ -276,7 +354,7 @@ const initSportChart = (data) => {
     font-size: 16px;
 }
 .status-done {
-    color: #67C23A;
+    color: var(--color-primary);
     font-weight: bold;
 }
 .status-todo {
