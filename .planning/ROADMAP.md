@@ -25,7 +25,13 @@
 4. Smooth page transitions and micro-animations when navigating between views
 5. Layout adapts properly on mobile and tablet viewports
 
-**Plans:** TBD
+**Plans:** 4 plans
+
+**Plan list:**
+- [ ] 01-01-PLAN.md -- Global CSS foundation with color palette and typography
+- [ ] 01-02-PLAN.md -- Layout.vue navigation modernization
+- [ ] 01-03-PLAN.md -- Home.vue dashboard card modernization
+- [ ] 01-04-PLAN.md -- Human verification checkpoint
 
 **UI hint:** yes
 
@@ -80,7 +86,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. UI Modernization | 0/5 | Not started | - |
+| 1. UI Modernization | 0/4 | Not started | - |
 | 2. Health Metrics & Data Foundation | 0/8 | Not started | - |
 | 3. Analytics & Record Management | 0/7 | Not started | - |
 
