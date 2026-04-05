@@ -55,11 +55,11 @@
 7. Form validation rejects out-of-range numeric values with clear error messages
 8. Date picker enables calendar-based date selection when adding records
 
-**Plans:** 3/3 plans created
+**Plans:** 2/3 plans executed
 
 **Plan list:**
 - [x] 02-01-PLAN.md -- Add health metric fields (BP systolic/diastolic, mood, stress, hydration) to indicator tab dialog
-- [ ] 02-02-PLAN.md -- Add Element Plus validation rules and date picker presets
+- [x] 02-02-PLAN.md -- Add Element Plus validation rules and date picker presets
 - [ ] 02-03-PLAN.md -- Human verification checkpoint
 
 **UI hint:** yes
@@ -92,7 +92,7 @@
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. UI Modernization | 3/4 | In Progress|  |
-| 2. Health Metrics & Data Foundation | 0/3 | Planning | - |
+| 2. Health Metrics & Data Foundation | 2/3 | In Progress|  |
 | 3. Analytics & Record Management | 0/7 | Not started | - |
 
 ---
