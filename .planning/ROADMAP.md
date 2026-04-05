@@ -83,12 +83,12 @@
 6. User can view and edit existing health records (ALREADY DONE in HealthRecord.vue)
 7. User can delete health records from the system (ALREADY DONE in HealthRecord.vue)
 
-**Plans:** 2/4 plans executed
+**Plans:** 3/4 plans executed
 
 **Plan list:**
 - [x] 03-01-PLAN.md -- Backend analytics aggregation (DTO, service, controller)
 - [x] 03-02-PLAN.md -- Frontend Analytics.vue with charts, tabs, date picker
-- [ ] 03-03-PLAN.md -- Router integration and Home.vue CTA button
+- [x] 03-03-PLAN.md -- Router integration and Home.vue CTA button
 - [ ] 03-04-PLAN.md -- Human verification checkpoint
 
 ---
@@ -99,7 +99,7 @@
 |-------|----------------|--------|-----------|
 | 1. UI Modernization | 3/4 | In Progress|  |
 | 2. Health Metrics & Data Foundation | 3/3 | Complete   | 2026-04-05 |
-| 3. Analytics & Record Management | 2/4 | In Progress|  |
+| 3. Analytics & Record Management | 3/4 | In Progress|  |
 
 ---
 
