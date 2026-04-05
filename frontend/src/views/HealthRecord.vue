@@ -106,10 +106,10 @@
                     </div>
                 </el-form-item>
                  <el-form-item label="血糖" prop="bloodSugar">
-                    <el-input-number v-model="form.bloodSugar" :precision="1" :step="0.1" />
+                    <el-input-number v-model="form.bloodSugar" :min="50" :max="400" :precision="1" :step="0.1" />
                 </el-form-item>
                  <el-form-item label="心率" prop="heartRate">
-                    <el-input-number v-model="form.heartRate" :step="1" />
+                    <el-input-number v-model="form.heartRate" :min="40" :max="200" :step="1" />
                 </el-form-item>
                  <el-form-item label="体温" prop="temperature">
                     <el-input-number v-model="form.temperature" :precision="1" :step="0.1" />
