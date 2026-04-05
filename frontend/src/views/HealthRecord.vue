@@ -94,7 +94,12 @@
                     <el-input-number v-model="form.weight" :precision="1" :step="0.1" />
                 </el-form-item>
                  <el-form-item label="血压">
-                    <el-input v-model="form.bloodPressure" placeholder="例如: 120/80" />
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <el-input-number v-model="form.systolic" :min="60" :max="200" :step="1" placeholder="收缩压" style="width: 120px;" />
+                        <span style="color: var(--color-text-muted);">/</span>
+                        <el-input-number v-model="form.diastolic" :min="40" :max="130" :step="1" placeholder="舒张压" style="width: 120px;" />
+                        <span style="color: var(--color-text-muted);">mmHg</span>
+                    </div>
                 </el-form-item>
                  <el-form-item label="血糖">
                     <el-input-number v-model="form.bloodSugar" :precision="1" :step="0.1" />
@@ -223,6 +228,11 @@ const handleAdd = (type) => {
     Object.keys(form).forEach(key => delete form[key])
     form.userId = user.id
     form.recordDate = new Date().toISOString().split('T')[0]
+    form.systolic = null
+    form.diastolic = null
+    form.mood = 3
+    form.stress = 3
+    form.hydration = 0
     dialogTitle.value = '新增记录'
     dialogVisible.value = true
 }
@@ -248,6 +258,9 @@ const handleDelete = (type, id) => {
 
 const save = () => {
     const type = activeName.value
+    if (type === 'indicator' && form.systolic && form.diastolic) {
+        form.bloodPressure = form.systolic + '/' + form.diastolic
+    }
     request.post(`/record/${type}/save`, form).then(res => {
         if (res.code === '200') {
             ElMessage.success('保存成功')
