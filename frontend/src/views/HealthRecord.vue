@@ -138,6 +138,14 @@
                         </el-radio-button>
                     </el-radio-group>
                 </el-form-item>
+                 <el-form-item label="饮水量">
+                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                        <el-input-number v-model="form.hydration" :min="0" :max="5000" :step="250" placeholder="ml" style="width: 140px;" />
+                        <span style="color: var(--color-text-muted);">ml</span>
+                        <el-button size="small" @click="form.hydration = (form.hydration || 0) + 250">+250ml</el-button>
+                        <el-button size="small" @click="form.hydration = (form.hydration || 0) + 500">+500ml</el-button>
+                    </div>
+                </el-form-item>
             </template>
 
             <!-- Sport Fields -->
