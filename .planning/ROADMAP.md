@@ -80,10 +80,16 @@
 3. Summary statistics (average, min, max) display for the current month
 4. Total counts (e.g., total workouts, total sleep hours) display on the dashboard
 5. Date range selector allows filtering analytics to custom periods
-6. User can view and edit existing health records
-7. User can delete health records from the system
+6. User can view and edit existing health records (ALREADY DONE in HealthRecord.vue)
+7. User can delete health records from the system (ALREADY DONE in HealthRecord.vue)
 
-**Plans:** TBD
+**Plans:** 4/4
+
+**Plan list:**
+- [ ] 03-01-PLAN.md -- Backend analytics aggregation (DTO, service, controller)
+- [ ] 03-02-PLAN.md -- Frontend Analytics.vue with charts, tabs, date picker
+- [ ] 03-03-PLAN.md -- Router integration and Home.vue CTA button
+- [ ] 03-04-PLAN.md -- Human verification checkpoint
 
 ---
 
@@ -93,7 +99,7 @@
 |-------|----------------|--------|-----------|
 | 1. UI Modernization | 3/4 | In Progress|  |
 | 2. Health Metrics & Data Foundation | 3/3 | Complete   | 2026-04-05 |
-| 3. Analytics & Record Management | 0/7 | Not started | - |
+| 3. Analytics & Record Management | 0/4 | Not started | - |
 
 ---
 
@@ -114,5 +120,5 @@
 - HM-01 to HM-06 -> Phase 2 (6 requirements)
 - AN-01 to AN-05 -> Phase 3 (5 requirements)
 - DM-01, DM-04, DM-05 -> Phase 2 (3 requirements)
-- DM-02, DM-03 -> Phase 3 (2 requirements)
+- DM-02, DM-03 -> Phase 3 (2 requirements) - ALREADY DONE in HealthRecord.vue
 - Total: 5 + 6 + 5 + 3 + 2 = 21 requirements
