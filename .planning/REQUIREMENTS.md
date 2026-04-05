@@ -28,11 +28,11 @@
 
 ### Analytics & Visualization
 
-- [ ] **AN-01**: Display 7-day trend chart for each health metric category
-- [ ] **AN-02**: Display 30-day trend chart for each health metric category
-- [ ] **AN-03**: Show summary statistics (average, min, max) for current month
-- [ ] **AN-04**: Display total counts (e.g., total workouts, total sleep hours)
-- [ ] **AN-05**: Add date range selector for custom analytics periods
+- [x] **AN-01**: Display 7-day trend chart for each health metric category
+- [x] **AN-02**: Display 30-day trend chart for each health metric category
+- [x] **AN-03**: Show summary statistics (average, min, max) for current month
+- [x] **AN-04**: Display total counts (e.g., total workouts, total sleep hours)
+- [x] **AN-05**: Add date range selector for custom analytics periods
 
 ### Health Metrics Expansion
 
@@ -48,8 +48,8 @@
 - [x] **DM-01**: User can add new health records with all metric fields
 - [ ] **DM-02**: User can view/edit existing health records
 - [ ] **DM-03**: User can delete health records
-- [ ] **DM-04**: Form validation for all numeric fields (reasonable ranges)
-- [ ] **DM-05**: Date picker for record selection
+- [x] **DM-04**: Form validation for all numeric fields (reasonable ranges)
+- [x] **DM-05**: Date picker for record selection
 
 ---
 
@@ -86,13 +86,13 @@
 | HM-04 | Phase 2 | Complete |
 | HM-05 | Phase 2 | Complete |
 | HM-06 | Phase 2 | Complete |
-| AN-01 | Phase 3 | Pending |
-| AN-02 | Phase 3 | Pending |
-| AN-03 | Phase 3 | Pending |
-| AN-04 | Phase 3 | Pending |
-| AN-05 | Phase 3 | Pending |
+| AN-01 | Phase 3 | Complete (03-02) |
+| AN-02 | Phase 3 | Complete (03-02) |
+| AN-03 | Phase 3 | Complete (03-02) |
+| AN-04 | Phase 3 | Complete (03-02) |
+| AN-05 | Phase 3 | Complete (03-02) |
 | DM-01 | Phase 2 | Complete |
 | DM-02 | Phase 3 | Pending |
 | DM-03 | Phase 3 | Pending |
-| DM-04 | Phase 2 | Pending |
-| DM-05 | Phase 2 | Pending |
+| DM-04 | Phase 2 | Complete |
+| DM-05 | Phase 2 | Complete |
