@@ -83,17 +83,21 @@
 
     <!-- 通用 Dialog -->
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="500px">
-        <el-form :model="form" label-width="100px">
-            <el-form-item label="日期">
-                 <el-date-picker v-model="form.recordDate" type="date" placeholder="选择日期" value-format="YYYY-MM-DD" style="width: 100%" />
-            </el-form-item>
 
             <!-- Indicator Fields -->
-            <template v-if="activeName === 'indicator'">
-                <el-form-item label="体重(kg)">
+            <el-form v-if="activeName === 'indicator'" :model="form" :rules="indicatorRules" label-width="100px">
+                <el-form-item label="日期" prop="recordDate">
+                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                        <el-date-picker v-model="form.recordDate" type="date" placeholder="选择日期" value-format="YYYY-MM-DD" style="width: 200px;" />
+                        <el-button size="small" @click="presetDate('today')">今天</el-button>
+                        <el-button size="small" @click="presetDate('yesterday')">昨天</el-button>
+                        <el-button size="small" @click="presetDate('week')">本周</el-button>
+                    </div>
+                </el-form-item>
+                <el-form-item label="体重(kg)" prop="weight">
                     <el-input-number v-model="form.weight" :precision="1" :step="0.1" />
                 </el-form-item>
-                 <el-form-item label="血压">
+                 <el-form-item label="血压" prop="systolic">
                     <div style="display: flex; gap: 8px; align-items: center;">
                         <el-input-number v-model="form.systolic" :min="60" :max="200" :step="1" placeholder="收缩压" style="width: 120px;" />
                         <span style="color: var(--color-text-muted);">/</span>
@@ -101,13 +105,13 @@
                         <span style="color: var(--color-text-muted);">mmHg</span>
                     </div>
                 </el-form-item>
-                 <el-form-item label="血糖">
+                 <el-form-item label="血糖" prop="bloodSugar">
                     <el-input-number v-model="form.bloodSugar" :precision="1" :step="0.1" />
                 </el-form-item>
-                 <el-form-item label="心率">
+                 <el-form-item label="心率" prop="heartRate">
                     <el-input-number v-model="form.heartRate" :step="1" />
                 </el-form-item>
-                 <el-form-item label="体温">
+                 <el-form-item label="体温" prop="temperature">
                     <el-input-number v-model="form.temperature" :precision="1" :step="0.1" />
                 </el-form-item>
                  <el-form-item label="心情">
@@ -138,7 +142,7 @@
                         </el-radio-button>
                     </el-radio-group>
                 </el-form-item>
-                 <el-form-item label="饮水量">
+                 <el-form-item label="饮水量" prop="hydration">
                     <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                         <el-input-number v-model="form.hydration" :min="0" :max="5000" :step="250" placeholder="ml" style="width: 140px;" />
                         <span style="color: var(--color-text-muted);">ml</span>
@@ -146,10 +150,10 @@
                         <el-button size="small" @click="form.hydration = (form.hydration || 0) + 500">+500ml</el-button>
                     </div>
                 </el-form-item>
-            </template>
+            </el-form>
 
             <!-- Sport Fields -->
-            <template v-if="activeName === 'sport'">
+            <el-form v-if="activeName === 'sport'" :model="form" label-width="100px">
                 <el-form-item label="运动类型">
                     <el-input v-model="form.sportType" />
                 </el-form-item>
@@ -159,10 +163,10 @@
                 <el-form-item label="消耗(kcal)">
                     <el-input-number v-model="form.calorie" />
                 </el-form-item>
-            </template>
+            </el-form>
 
              <!-- Diet Fields -->
-            <template v-if="activeName === 'diet'">
+            <el-form v-if="activeName === 'diet'" :model="form" label-width="100px">
                 <el-form-item label="餐别">
                     <el-select v-model="form.mealType">
                         <el-option label="早餐" value="早餐" />
@@ -177,10 +181,10 @@
                 <el-form-item label="卡路里">
                     <el-input-number v-model="form.calorie" />
                 </el-form-item>
-            </template>
+            </el-form>
 
              <!-- Sleep Fields -->
-            <template v-if="activeName === 'sleep'">
+            <el-form v-if="activeName === 'sleep'" :model="form" label-width="100px">
                 <el-form-item label="入睡时间">
                     <el-date-picker v-model="form.sleepTime" type="datetime" value-format="YYYY-MM-DD HH:mm:ss" />
                 </el-form-item>
@@ -198,9 +202,8 @@
                         <el-option label="差" value="差" />
                     </el-select>
                 </el-form-item>
-            </template>
+            </el-form>
 
-        </el-form>
         <template #footer>
             <span class="dialog-footer">
                 <el-button @click="dialogVisible = false">取消</el-button>
@@ -228,6 +231,50 @@ const dialogTitle = ref('')
 const form = reactive({})
 
 const user = JSON.parse(localStorage.getItem('user') || '{}').user || {}
+
+const indicatorRules = {
+  recordDate: [
+    { required: true, message: '请选择日期', trigger: 'change' }
+  ],
+  systolic: [
+    { required: true, message: '请输入收缩压', trigger: 'blur' },
+    { type: 'number', min: 60, max: 200, message: '收缩压范围: 60-200 mmHg', trigger: 'blur' }
+  ],
+  diastolic: [
+    { required: true, message: '请输入舒张压', trigger: 'blur' },
+    { type: 'number', min: 40, max: 130, message: '舒张压范围: 40-130 mmHg', trigger: 'blur' }
+  ],
+  heartRate: [
+    { type: 'number', min: 40, max: 200, message: '心率范围: 40-200 bpm', trigger: 'blur' }
+  ],
+  bloodSugar: [
+    { type: 'number', min: 50, max: 400, message: '血糖范围: 50-400 mg/dL', trigger: 'blur' }
+  ],
+  hydration: [
+    { type: 'number', min: 0, max: 5000, message: '饮水量范围: 0-5000 ml', trigger: 'blur' }
+  ],
+  weight: [
+    { type: 'number', min: 20, max: 300, message: '体重范围: 20-300 kg', trigger: 'blur' }
+  ],
+  temperature: [
+    { type: 'number', min: 35, max: 42, message: '体温范围: 35-42 °C', trigger: 'blur' }
+  ]
+}
+
+const presetDate = (type) => {
+  const today = new Date()
+  if (type === 'today') {
+    form.recordDate = today.toISOString().split('T')[0]
+  } else if (type === 'yesterday') {
+    const yesterday = new Date(today)
+    yesterday.setDate(yesterday.getDate() - 1)
+    form.recordDate = yesterday.toISOString().split('T')[0]
+  } else if (type === 'week') {
+    const weekStart = new Date(today)
+    weekStart.setDate(weekStart.getDate() - weekStart.getDay())
+    form.recordDate = weekStart.toISOString().split('T')[0]
+  }
+}
 
 const loadData = () => {
     if (activeName.value === 'indicator') {
