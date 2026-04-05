@@ -3,7 +3,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/hero'
+  },
+  {
+    path: '/hero',
+    name: 'Hero',
+    component: () => import('../views/HeroPage.vue')
   },
   {
     path: '/login',
@@ -46,6 +51,11 @@ const routes = [
         component: () => import('../views/HealthRecord.vue')
       },
       {
+        path: 'analytics',
+        name: 'Analytics',
+        component: () => import('../views/Analytics.vue')
+      },
+      {
         path: 'forum',
         name: 'Forum',
         component: () => import('../views/Forum.vue')
@@ -74,6 +84,11 @@ const routes = [
         path: 'my-content',
         name: 'MyContent',
         component: () => import('../views/MyContent.vue')
+      },
+      {
+        path: 'ai-advisor',
+        name: 'AiAdvisor',
+        component: () => import('../views/AiAdvisorPage.vue')
       }
     ]
   }
