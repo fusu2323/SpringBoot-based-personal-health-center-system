@@ -119,6 +119,25 @@
                         <el-radio-button :value="5">&#128513;很好</el-radio-button>
                     </el-radio-group>
                 </el-form-item>
+                 <el-form-item label="压力">
+                    <el-radio-group v-model="form.stress" size="large">
+                        <el-radio-button :value="1">
+                            <span style="color: #22C55E;">1</span>
+                        </el-radio-button>
+                        <el-radio-button :value="2">
+                            <span style="color: #84CC16;">2</span>
+                        </el-radio-button>
+                        <el-radio-button :value="3">
+                            <span style="color: #EAB308;">3</span>
+                        </el-radio-button>
+                        <el-radio-button :value="4">
+                            <span style="color: #F97316;">4</span>
+                        </el-radio-button>
+                        <el-radio-button :value="5">
+                            <span style="color: #EF4444;">5</span>
+                        </el-radio-button>
+                    </el-radio-group>
+                </el-form-item>
             </template>
 
             <!-- Sport Fields -->
