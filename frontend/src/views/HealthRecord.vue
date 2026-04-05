@@ -110,6 +110,15 @@
                  <el-form-item label="体温">
                     <el-input-number v-model="form.temperature" :precision="1" :step="0.1" />
                 </el-form-item>
+                 <el-form-item label="心情">
+                    <el-radio-group v-model="form.mood" size="large">
+                        <el-radio-button :value="1">&#128546;很差</el-radio-button>
+                        <el-radio-button :value="2">&#128577;较差</el-radio-button>
+                        <el-radio-button :value="3">&#128528;一般</el-radio-button>
+                        <el-radio-button :value="4">&#128578;较好</el-radio-button>
+                        <el-radio-button :value="5">&#128513;很好</el-radio-button>
+                    </el-radio-group>
+                </el-form-item>
             </template>
 
             <!-- Sport Fields -->
