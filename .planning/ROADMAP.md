@@ -1,124 +1,92 @@
-# ROADMAP — v1.0 Health Dashboard Upgrade
+# Roadmap — v1.1 Thesis Paper Completion
+
+**Milestone:** v1.1
+**Started:** 2026-04-20
+**Requirements:** 22 total
 
 ## Phases
 
-- [ ] **Phase 1: UI Modernization** — Apply custom color scheme, typography, modern card designs, animations, responsive layout
-- [x] **Phase 2: Health Metrics & Data Foundation** — Add blood pressure, heart rate, blood sugar, mood, stress, hydration tracking with form validation and date picker (completed 2026-04-05)
-- [ ] **Phase 3: Analytics & Record Management** — Add trend charts, summary statistics, date range selector, edit/delete records
+| # | Phase | Goal | Requirements | Success Criteria |
+|---|-------|------|--------------|------------------|
+| 1 | Thesis Foundation | Complete chapters 1-3 text content with existing code references | TH-01, TH-02, TH-03, TH-04 | Research background complete, literature review complete, feasibility documented |
+| 2 | Diagram Integration | Add all Mermaid diagrams (ER, use case, sequence, module) | TH-05, TH-06, TH-07, MG-01, MG-02, MG-03, MG-04, MG-05, MG-06 | All diagrams embedded in correct chapters |
+| 3 | Testing & Polish | Complete testing chapter with white-box and black-box reports | TH-08, TH-09, TH-10, MG-07, MG-08, DQ-01, DQ-02, DQ-03, DQ-04 | All test reports complete, document polished |
 
 ---
 
-## Phase Details
+## Phase 1: Thesis Foundation
 
-### Phase 1: UI Modernization
+**Goal:** Complete the written content for chapters 1-3, enhancing existing content and adding missing sections
 
-**Goal:** Dashboard has modern, health-focused visual design with smooth interactions
+### Requirements Covered
+- TH-01: Research background and significance (研究背景及意义)
+- TH-02: Literature review / current research status (国内外研究现状)
+- TH-03: Feasibility analysis (可行性分析)
+- TH-04: Requirements analysis with use case diagram
 
-**Depends on:** None (first phase)
-
-**Requirements:** UI-01, UI-02, UI-03, UI-04, UI-05
-
-**Success Criteria** (what must be TRUE):
-1. Custom health-focused color scheme (greens, blues) visible throughout the dashboard
-2. Modern fonts (Inter, system-ui) applied to all text elements
-3. Dashboard cards display with shadows, rounded corners, and hover effects
-4. Smooth page transitions and micro-animations when navigating between views
-5. Layout adapts properly on mobile and tablet viewports
-
-**Plans:** 3/4 plans executed
-
-**Plan list:**
-- [x] 01-01-PLAN.md -- Global CSS foundation with color palette and typography
-- [x] 01-02-PLAN.md -- Layout.vue navigation modernization
-- [x] 01-03-PLAN.md -- Home.vue dashboard card modernization
-- [ ] 01-04-PLAN.md -- Human verification checkpoint
-
-**UI hint:** yes
+### Success Criteria
+1. Chapter 1 (绪论) has comprehensive research background and significance section
+2. Chapter 1 includes detailed literature review of domestic and international健康管理平台现状
+3. Chapter 3 includes feasibility analysis (技术可行性、经济可行性、操作可行性)
+4. Chapter 3 includes use case diagram showing all system actors and use cases
 
 ---
 
-### Phase 2: Health Metrics & Data Foundation
+## Phase 2: Diagram Integration
 
-**Goal:** Users can track new health metrics (blood pressure, heart rate, blood sugar, mood, stress, hydration) with proper validation
+**Goal:** Add all required Mermaid diagrams to appropriate chapters
 
-**Depends on:** Phase 1
+### Requirements Covered
+- TH-05: System function design with function module diagram
+- TH-06: Database design with ER diagram
+- MG-01: Use case diagram for system actors and interactions
+- MG-02: Function module diagram showing all system modules
+- MG-03: Database ER diagram with all entities and relationships
+- MG-04: Sequence diagram for user login flow
+- MG-05: Sequence diagram for health record creation
+- MG-06: Sequence diagram for analytics data retrieval
 
-**Requirements:** HM-01, HM-02, HM-03, HM-04, HM-05, HM-06, DM-01, DM-04, DM-05
-
-**Success Criteria** (what must be TRUE):
-1. Blood pressure fields (systolic/diastolic mmHg) appear in the add-record form
-2. Heart rate field (bpm) appears in the add-record form
-3. Blood sugar field (mg/dL) appears in the add-record form
-4. Mood rating selector (1-5 scale with emoji indicators) appears in the add-record form
-5. Stress level selector (1-5 scale) appears in the add-record form
-6. Hydration input (glasses or ml) appears in the add-record form
-7. Form validation rejects out-of-range numeric values with clear error messages
-8. Date picker enables calendar-based date selection when adding records
-
-**Plans:** 3/3 plans complete
-
-**Plan list:**
-- [x] 02-01-PLAN.md -- Add health metric fields (BP systolic/diastolic, mood, stress, hydration) to indicator tab dialog
-- [x] 02-02-PLAN.md -- Add Element Plus validation rules and date picker presets
-- [x] 02-03-PLAN.md -- Human verification checkpoint
-
-**UI hint:** yes
+### Success Criteria
+1. Function module diagram shows all 6 main modules and their relationships
+2. Database ER diagram shows all 9 entities with attributes and relationships
+3. At least 3 sequence diagrams showing key system interactions
+4. All diagrams use Mermaid syntax and render correctly
 
 ---
 
-### Phase 3: Analytics & Record Management
+## Phase 3: Testing & Polish
 
-**Goal:** Users can view trend charts, statistics, and manage their existing health records
+**Goal:** Complete testing chapter with formal white-box and black-box reports, add program flowcharts
 
-**Depends on:** Phase 2
+### Requirements Covered
+- TH-08: Detailed design with program flowcharts
+- TH-09: White-box testing report
+- TH-10: Black-box testing report
+- MG-07: Program flowchart for body indicator recording
+- MG-08: Program flowchart for health data analysis
+- DQ-01: All diagrams rendered in Mermaid syntax
+- DQ-02: All tables properly formatted
+- DQ-03: Consistent heading hierarchy throughout
+- DQ-04: Cross-references between sections where applicable
 
-**Requirements:** AN-01, AN-02, AN-03, AN-04, AN-05, DM-02, DM-03
-
-**Success Criteria** (what must be TRUE):
-1. 7-day trend chart displays for each health metric category
-2. 30-day trend chart displays for each health metric category
-3. Summary statistics (average, min, max) display for the current month
-4. Total counts (e.g., total workouts, total sleep hours) display on the dashboard
-5. Date range selector allows filtering analytics to custom periods
-6. User can view and edit existing health records (ALREADY DONE in HealthRecord.vue)
-7. User can delete health records from the system (ALREADY DONE in HealthRecord.vue)
-
-**Plans:** 3/4 plans executed
-
-**Plan list:**
-- [x] 03-01-PLAN.md -- Backend analytics aggregation (DTO, service, controller)
-- [x] 03-02-PLAN.md -- Frontend Analytics.vue with charts, tabs, date picker
-- [x] 03-03-PLAN.md -- Router integration and Home.vue CTA button
-- [x] 03-04-PLAN.md -- Human verification checkpoint
+### Success Criteria
+1. White-box test report includes unit testing results for key modules
+2. Black-box test report includes functional testing results for all features
+3. Program flowcharts show logic for key operations
+4. Document formatting is consistent throughout
 
 ---
 
-## Progress Table
+## Summary
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. UI Modernization | 3/4 | In Progress|  |
-| 2. Health Metrics & Data Foundation | 3/3 | Complete   | 2026-04-05 |
-| 3. Analytics & Record Management | 3/4 | In Progress|  |
+| Phase | Requirements | Status |
+|-------|--------------|--------|
+| Phase 1: Thesis Foundation | TH-01, TH-02, TH-03, TH-04 | Not Started |
+| Phase 2: Diagram Integration | TH-05, TH-06, TH-07, MG-01, MG-02, MG-03, MG-04, MG-05, MG-06 | Not Started |
+| Phase 3: Testing & Polish | TH-08, TH-09, TH-10, MG-07, MG-08, DQ-01, DQ-02, DQ-03, DQ-04 | Not Started |
+
+**Total:** 3 phases | 22 requirements | All covered ✓
 
 ---
 
-## Coverage
-
-**Total v1.0 requirements:** 21
-
-| Phase | Requirements |
-|-------|--------------|
-| 1. UI Modernization | UI-01, UI-02, UI-03, UI-04, UI-05 |
-| 2. Health Metrics & Data Foundation | HM-01, HM-02, HM-03, HM-04, HM-05, HM-06, DM-01, DM-04, DM-05 |
-| 3. Analytics & Record Management | AN-01, AN-02, AN-03, AN-04, AN-05, DM-02, DM-03 |
-
-**Coverage:** 21/21 requirements mapped
-
-**Verification:**
-- UI-01 to UI-05 -> Phase 1 (5 requirements)
-- HM-01 to HM-06 -> Phase 2 (6 requirements)
-- AN-01 to AN-05 -> Phase 3 (5 requirements)
-- DM-01, DM-04, DM-05 -> Phase 2 (3 requirements)
-- DM-02, DM-03 -> Phase 3 (2 requirements) - ALREADY DONE in HealthRecord.vue
-- Total: 5 + 6 + 5 + 3 + 2 = 21 requirements
+*Roadmap created: 2026-04-20*

@@ -1,98 +1,75 @@
-# Requirements — v1.0 Health Dashboard Upgrade
+# Requirements: Health Dashboard — Thesis Paper Completion
 
-## Categories
+**Defined:** 2026-04-20
+**Core Value:** Complete all required thesis chapters with Mermaid diagrams
 
-### UI Modernization
-**Table stakes:** Custom color scheme, improved typography, better spacing
-**Differentiators:** Smooth animations, modern card designs, responsive layout overhaul
+## v1 Requirements
 
-### Analytics
-**Table stakes:** Trend line charts (7/30-day), summary statistics (avg, min, max, total)
-**Differentiators:** Comparative views, goal tracking visualizations
+Requirements for thesis v1.1 — document all required sections and diagrams.
 
-### Health Metrics
-**Table stakes:** Additional fields for blood pressure, heart rate
-**Differentiators:** Blood sugar tracking, mood/stress ratings, hydration tracking
+### Thesis Chapters
 
----
+- [ ] **TH-01**: Research background and significance (研究背景及意义) — Chapter 1 section 1.1
+- [ ] **TH-02**: Literature review / current research status (国内外研究现状) — Chapter 1 section 1.2
+- [ ] **TH-03**: Feasibility analysis (可行性分析) — Chapter 3 section 3.1
+- [ ] **TH-04**: Requirements analysis with use case diagram (需求分析 - 用例图)
+- [ ] **TH-05**: System function design with function module diagram (系统功能设计 - 功能模块图)
+- [ ] **TH-06**: Database design with ER diagram (数据库设计 - ER图)
+- [ ] **TH-07**: Sequence diagrams for key operations (时序图)
+- [ ] **TH-08**: Detailed design with program flowcharts (详细设计 - 程序流程图)
+- [ ] **TH-09**: White-box testing report (白盒测试报告)
+- [ ] **TH-10**: Black-box testing report (黑盒测试报告)
 
-## v1.0 Requirements
+### Mermaid Diagrams
 
-### UI Modernization
+- [ ] **MG-01**: Use case diagram for system actors and interactions
+- [ ] **MG-02**: Function module diagram showing all system modules
+- [ ] **MG-03**: Database ER diagram with all entities and relationships
+- [ ] **MG-04**: Sequence diagram for user login flow
+- [ ] **MG-05**: Sequence diagram for health record creation
+- [ ] **MG-06**: Sequence diagram for analytics data retrieval
+- [ ] **MG-07**: Program flowchart for body indicator recording
+- [ ] **MG-08**: Program flowchart for health data analysis
 
-- [x] **UI-01**: Apply custom color scheme with health-focused palette (greens, blues)
-- [x] **UI-02**: Improve typography with modern fonts (e.g., Inter, system-ui)
-- [x] **UI-03**: Redesign dashboard cards with shadows, rounded corners, hover effects
-- [x] **UI-04**: Add smooth page transitions and micro-animations
-- [x] **UI-05**: Improve responsive layout for mobile/tablet
+### Documentation Quality
 
-### Analytics & Visualization
-
-- [x] **AN-01**: Display 7-day trend chart for each health metric category
-- [x] **AN-02**: Display 30-day trend chart for each health metric category
-- [x] **AN-03**: Show summary statistics (average, min, max) for current month
-- [x] **AN-04**: Display total counts (e.g., total workouts, total sleep hours)
-- [x] **AN-05**: Add date range selector for custom analytics periods
-
-### Health Metrics Expansion
-
-- [x] **HM-01**: Track blood pressure (systolic/diastolic mmHg)
-- [x] **HM-02**: Track heart rate (bpm)
-- [x] **HM-03**: Track blood sugar (mg/dL)
-- [x] **HM-04**: Track mood rating (1-5 scale with emoji indicators)
-- [x] **HM-05**: Track stress level (1-5 scale)
-- [x] **HM-06**: Track hydration (glasses or ml)
-
-### Data Management
-
-- [x] **DM-01**: User can add new health records with all metric fields
-- [ ] **DM-02**: User can view/edit existing health records
-- [ ] **DM-03**: User can delete health records
-- [x] **DM-04**: Form validation for all numeric fields (reasonable ranges)
-- [x] **DM-05**: Date picker for record selection
-
----
-
-## Future Requirements (Deferred)
-
-- [ ] Blood oxygen (SpO2) tracking
-- [ ] Exercise distance/pace tracking
-- [ ] Water intake reminders
-- [ ] Sleep quality breakdown (deep/light/REM)
-- [ ] Export data to PDF/CSV
-- [ ] Health insights/AI recommendations
-
-## Out of Scope
-
-- **Authentication/Authorization** — Explicitly excluded per user request
-- **Admin dashboard improvements** — Focus is on user-facing features
-- **Social features** — Forum deprioritized in this milestone
-- **Push notifications** — No reminders in v1.0
-
----
+- [ ] **DQ-01**: All diagrams rendered in Mermaid syntax
+- [ ] **DQ-02**: All tables properly formatted
+- [ ] **DQ-03**: Consistent heading hierarchy throughout
+- [ ] **DQ-04**: Cross-references between sections where applicable
 
 ## Traceability
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| UI-01 | Phase 1 | Complete |
-| UI-02 | Phase 1 | Complete |
-| UI-03 | Phase 1 | Complete |
-| UI-04 | Phase 1 | Complete |
-| UI-05 | Phase 1 | Complete |
-| HM-01 | Phase 2 | Complete |
-| HM-02 | Phase 2 | Complete |
-| HM-03 | Phase 2 | Complete |
-| HM-04 | Phase 2 | Complete |
-| HM-05 | Phase 2 | Complete |
-| HM-06 | Phase 2 | Complete |
-| AN-01 | Phase 3 | Complete (03-02) |
-| AN-02 | Phase 3 | Complete (03-02) |
-| AN-03 | Phase 3 | Complete (03-02) |
-| AN-04 | Phase 3 | Complete (03-02) |
-| AN-05 | Phase 3 | Complete (03-02) |
-| DM-01 | Phase 2 | Complete |
-| DM-02 | Phase 3 | Pending |
-| DM-03 | Phase 3 | Pending |
-| DM-04 | Phase 2 | Complete |
-| DM-05 | Phase 2 | Complete |
+| TH-01 | Phase 1 | Pending |
+| TH-02 | Phase 1 | Pending |
+| TH-03 | Phase 1 | Pending |
+| TH-04 | Phase 2 | Pending |
+| TH-05 | Phase 2 | Pending |
+| TH-06 | Phase 2 | Pending |
+| TH-07 | Phase 2 | Pending |
+| TH-08 | Phase 3 | Pending |
+| TH-09 | Phase 3 | Pending |
+| TH-10 | Phase 3 | Pending |
+| MG-01 | Phase 2 | Pending |
+| MG-02 | Phase 2 | Pending |
+| MG-03 | Phase 2 | Pending |
+| MG-04 | Phase 2 | Pending |
+| MG-05 | Phase 2 | Pending |
+| MG-06 | Phase 2 | Pending |
+| MG-07 | Phase 3 | Pending |
+| MG-08 | Phase 3 | Pending |
+| DQ-01 | All phases | Pending |
+| DQ-02 | All phases | Pending |
+| DQ-03 | All phases | Pending |
+| DQ-04 | All phases | Pending |
+
+**Coverage:**
+- v1 requirements: 22 total
+- Mapped to phases: 22
+- Unmapped: 0 ✓
+
+---
+*Requirements defined: 2026-04-20*
+*Last updated: 2026-04-20 after v1.1 milestone started*
