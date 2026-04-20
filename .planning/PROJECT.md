@@ -51,7 +51,26 @@ Help users see their health patterns clearly so they can make informed decisions
 
 ---
 
-*Last updated: 2026-04-01 after v1.0 milestone started*
+*Last updated: 2026-04-20 after v1.1 milestone started - Thesis Paper Completion*
+
+## Current Milestone: v1.1 Thesis Paper Completion
+
+**Goal:** Complete the thesis draft with all required chapters including research background, significance, literature review, feasibility analysis, requirements analysis (use case diagrams, functional analysis), preliminary design (database ER diagrams, function module diagrams, sequence diagrams), detailed design (program flowcharts), and software testing reports (white-box and black-box testing reports).
+
+**Target features:**
+- Research background and significance (绪论研究背景及意义)
+- Literature review and current research status (国内外研究现状)
+- Feasibility analysis (可行性分析)
+- Requirements analysis with use case diagrams (需求分析 - 用例图)
+- System function design (系统功能设计)
+- Database design with ER diagrams (数据库设计 - ER图)
+- Function module diagrams (功能模块图)
+- Sequence diagrams (时序图)
+- Detailed design with program flowcharts (详细设计 - 程序流程图)
+- White-box testing report (白盒测试报告)
+- Black-box testing report (黑盒测试报告)
+
+---
 
 ## Evolution
 
