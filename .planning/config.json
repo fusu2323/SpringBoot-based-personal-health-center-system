@@ -18,5 +18,8 @@
   "state_path": ".planning/STATE.md",
   "project_root": "C:\\Users\\Administrator\\Desktop\\healthy",
   "agents_installed": true,
-  "missing_agents": []
+  "missing_agents": [],
+  "workflow": {
+    "_auto_chain_active": true
+  }
 }

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原型 C - 有机自然风</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FDFBF7;
+      --cream: #F5F1E8;
+      --sage: #8B9A7D;
+      --sage-light: #A8B89A;
+      --sage-dark: #6B7A5D;
+      --terracotta: #C47D5E;
+      --sand: #D4C4A8;
+      --ink: #3D3D3D;
+      --text: #5A5A5A;
+      --white: #FFFFFF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 40px;
+    }
+
+    /* Decorative blobs */
+    .blob-1 {
+      position: fixed;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(139,154,125,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .blob-2 {
+      position: fixed;
+      bottom: -150px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(196,125,94,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--sage-dark);
+      font-style: italic;
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 32px;
+    }
+
+    .header-nav a {
+      font-size: 14px;
+      color: var(--text);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .header-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--terracotta);
+      transition: width 0.3s ease;
+    }
+
+    .header-nav a:hover::after { width: 100%; }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 80px;
+      margin-bottom: 100px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-left .kicker {
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .hero-left h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 52px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+
+    .hero-left h1 em {
+      font-style: italic;
+      color: var(--sage);
+    }
+
+    .hero-subtitle {
+      font-size: 17px;
+      color: var(--text);
+      font-weight: 300;
+      max-width: 400px;
+    }
+
+    .hero-right {
+      position: relative;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: 320px;
+      background: linear-gradient(135deg, var(--sage-light) 0%, var(--sage) 100%);
+      border-radius: 200px 200px 40px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-image::before {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 20%;
+      width: 60%;
+      height: 60%;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1' opacity='0.3'%3E%3Cpath d='M22 12h-4l-3 9L9 3l-3 9H2'/%3E%3C/svg%3E") center/contain no-repeat;
+      opacity: 0.6;
+    }
+
+    .hero-image::after {
+      content: '♥';
+      position: absolute;
+      bottom: 30%;
+      right: 25%;
+      font-size: 80px;
+      color: rgba(255,255,255,0.15);
+    }
+
+    .hero-stats {
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 24px;
+      background: var(--white);
+      padding: 20px 40px;
+      border-radius: 100px;
+      box-shadow: 0 10px 40px rgba(139,154,125,0.15);
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .hero-stat-label {
+      font-size: 11px;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero-stat + .hero-stat {
+      border-left: 1px solid var(--sand);
+      padding-left: 24px;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      color: var(--text);
+      font-style: italic;
+    }
+
+    /* Status Cards */
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .status-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 20px rgba(139,154,125,0.08);
+    }
+
+    .status-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 40px rgba(139,154,125,0.15);
+    }
+
+    .status-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--sand);
+      border-radius: 24px 24px 0 0;
+      transition: all 0.3s ease;
+    }
+
+    .status-card.active::before {
+      background: linear-gradient(90deg, var(--sage), var(--terracotta));
+    }
+
+    .status-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 20px;
+      background: var(--cream);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .status-card.active .status-icon {
+      background: linear-gradient(135deg, var(--sage-light), var(--sage));
+    }
+
+    .status-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--sage);
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    .status-card.active .status-icon svg {
+      stroke: var(--white);
+    }
+
+    .status-label {
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .status-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .status-value.done { color: var(--sage-dark); }
+    .status-value.pending { color: var(--terracotta); }
+
+    /* Report */
+    .report-section {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 32px;
+    }
+
+    .report-card {
+      background: var(--white);
+      border-radius: 32px;
+      padding: 48px;
+      box-shadow: 0 8px 30px rgba(139,154,125,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .report-card::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(196,125,94,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .report-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .report-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .report-title-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--terracotta), var(--sand));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .report-title-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--white);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .report-refresh {
+      background: var(--cream);
+      border: none;
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .report-refresh:hover {
+      background: var(--sage);
+      color: var(--white);
+    }
+
+    .report-content {
+      font-size: 15px;
+      line-height: 2;
+      color: var(--text);
+    }
+
+    .report-content p { margin-bottom: 16px; }
+    .report-content strong { color: var(--ink); font-weight: 500; }
+
+    .report-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 32px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(139,154,125,0.08);
+      position: relative;
+    }
+
+    .sidebar-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--sand);
+      border-radius: 0 0 4px 4px;
+    }
+
+    .sidebar-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 56px;
+      font-weight: 600;
+      color: var(--sage);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-label {
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    /* Charts */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .chart-card {
+      background: var(--white);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: 0 4px 20px rgba(139,154,125,0.08);
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .chart-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .chart-period {
+      font-size: 12px;
+      color: var(--text);
+      background: var(--cream);
+      padding: 6px 14px;
+      border-radius: 100px;
+    }
+
+    .chart-container {
+      height: 180px;
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+      padding: 20px 0;
+    }
+
+    .chart-bar {
+      flex: 1;
+      border-radius: 20px 20px 8px 8px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+
+    .chart-bar span {
+      position: absolute;
+      bottom: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      color: var(--text);
+    }
+
+    .chart-bar:hover {
+      transform: scaleY(1.05);
+      transform-origin: bottom;
+    }
+
+    .bp-chart .chart-bar {
+      background: linear-gradient(to top, var(--sage), rgba(139,154,125,0.3));
+    }
+
+    .bp-chart .chart-bar:hover {
+      background: linear-gradient(to top, var(--sage-dark), var(--sage));
+    }
+
+    .sport-chart .chart-bar {
+      background: linear-gradient(to top, var(--terracotta), rgba(196,125,94,0.3));
+    }
+
+    .sport-chart .chart-bar:hover {
+      background: linear-gradient(to top, var(--terracotta), var(--sand));
+    }
+
+    /* Notice */
+    .notice-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .notice-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 4px 20px rgba(139,154,125,0.08);
+      transition: all 0.4s ease;
+    }
+
+    .notice-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(139,154,125,0.12);
+    }
+
+    .notice-date {
+      font-size: 12px;
+      color: var(--terracotta);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .notice-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .notice-desc {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 80px;
+      padding: 40px 0;
+      border-top: 1px solid var(--sand);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-text {
+      font-size: 13px;
+      color: var(--text);
+      font-style: italic;
+    }
+
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      color: var(--sage);
+      font-style: italic;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 60px; }
+      .hero-right { order: -1; }
+      .hero-stats { position: relative; bottom: 0; margin-top: 24px; }
+      .status-grid { grid-template-columns: repeat(2, 1fr); }
+      .report-section { grid-template-columns: 1fr; }
+      .charts-grid { grid-template-columns: 1fr; }
+      .notice-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="blob-1"></div>
+  <div class="blob-2"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">健康之约</div>
+      <nav class="header-nav">
+        <a href="#">首页</a>
+        <a href="#">记录</a>
+        <a href="#">分析</a>
+        <a href="#">设置</a>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-left">
+        <p class="kicker">每日健康简报</p>
+        <h1>下午好，<em>朋友</em><br>感受生命的节奏</h1>
+        <p class="hero-subtitle">每一次记录都是对自己的关爱，每一天都是新的开始。让我们一起守护健康，感受生活的美好。</p>
+      </div>
+      <div class="hero-right">
+        <div class="hero-image"></div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-value">87</div>
+            <div class="hero-stat-label">健康评分</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">42</div>
+            <div class="hero-stat-label">连续天数</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Status -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">今日记录</h2>
+        <p class="section-subtitle">每一个小小的坚持，都是健康的积累</p>
+      </div>
+      <div class="status-grid">
+        <div class="status-card active">
+          <div class="status-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <p class="status-label">身体指标</p>
+          <p class="status-value done">已记录</p>
+        </div>
+        <div class="status-card active">
+          <div class="status-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <p class="status-label">运动情况</p>
+          <p class="status-value done">已记录</p>
+        </div>
+        <div class="status-card">
+          <div class="status-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+          </div>
+          <p class="status-label">饮食情况</p>
+          <p class="status-value pending">未记录</p>
+        </div>
+        <div class="status-card active">
+          <div class="status-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </div>
+          <p class="status-label">睡眠情况</p>
+          <p class="status-value done">已记录</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Report -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">AI 健康分析</h2>
+        <p class="section-subtitle">智能洞察，守护您的每一天</p>
+      </div>
+      <div class="report-section">
+        <div class="report-card">
+          <div class="report-header">
+            <h3 class="report-title">
+              <span class="report-title-icon">
+                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </span>
+              今日简报
+            </h3>
+            <button class="report-refresh">刷新</button>
+          </div>
+          <div class="report-content">
+            <p><strong>血压状况</strong>：当前血压 117/78 mmHg，处于理想范围。继续保持均衡饮食，适量运动。</p>
+            <p><strong>运动追踪</strong>：今日已完成 45 分钟有氧运动，适度锻炼有助于保持心血管健康。</p>
+            <p><strong>睡眠分析</strong>：昨晚睡眠时长 7.2 小时，深睡眠占比略低，建议调整作息时间，睡前避免使用电子设备。</p>
+            <p><strong>温馨提醒</strong>：今日饮食记录还未填写，记得补充今日的饮食信息，这样 AI 分析会更准确。</p>
+          </div>
+        </div>
+        <div class="report-sidebar">
+          <div class="sidebar-card">
+            <div class="sidebar-value">7.2</div>
+            <div class="sidebar-label">睡眠时长（小时）</div>
+          </div>
+          <div class="sidebar-card">
+            <div class="sidebar-value">45</div>
+            <div class="sidebar-label">运动时长（分钟）</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">健康趋势</h2>
+        <p class="section-subtitle">回顾过去，展望未来</p>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <span class="chart-title">血压变化</span>
+            <span class="chart-period">近7天</span>
+          </div>
+          <div class="chart-container bp-chart">
+            <div class="chart-bar" style="height: 65%;"><span>周一</span></div>
+            <div class="chart-bar" style="height: 72%;"><span>周二</span></div>
+            <div class="chart-bar" style="height: 68%;"><span>周三</span></div>
+            <div class="chart-bar" style="height: 75%;"><span>周四</span></div>
+            <div class="chart-bar" style="height: 70%;"><span>周五</span></div>
+            <div class="chart-bar" style="height: 60%;"><span>周六</span></div>
+            <div class="chart-bar" style="height: 62%;"><span>周日</span></div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <span class="chart-title">运动时长</span>
+            <span class="chart-period">近7天</span>
+          </div>
+          <div class="chart-container sport-chart">
+            <div class="chart-bar" style="height: 45%;"><span>周一</span></div>
+            <div class="chart-bar" style="height: 60%;"><span>周二</span></div>
+            <div class="chart-bar" style="height: 30%;"><span>周三</span></div>
+            <div class="chart-bar" style="height: 75%;"><span>周四</span></div>
+            <div class="chart-bar" style="height: 90%;"><span>周五</span></div>
+            <div class="chart-bar" style="height: 55%;"><span>周六</span></div>
+            <div class="chart-bar" style="height: 40%;"><span>周日</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notice -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">系统公告</h2>
+        <p class="section-subtitle">新功能，新体验</p>
+      </div>
+      <div class="notice-list">
+        <div class="notice-card">
+          <p class="notice-date">2026年3月28日</p>
+          <h4 class="notice-title">新增睡眠分期分析</h4>
+          <p class="notice-desc">现在可以查看深睡眠、浅睡眠和快速眼动期的详细分布，更好地了解睡眠质量。</p>
+        </div>
+        <div class="notice-card">
+          <p class="notice-date">2026年3月25日</p>
+          <h4 class="notice-title">春季养生建议</h4>
+          <p class="notice-desc">根据春季特点优化了 AI 健康建议算法，提供更符合时令的养生指导。</p>
+        </div>
+        <div class="notice-card">
+          <p class="notice-date">2026年3月20日</p>
+          <h4 class="notice-title">设备同步优化</h4>
+          <p class="notice-desc">提升了血压计等设备的数据同步稳定性，连接更顺畅。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span class="footer-text">健康是人生最大的财富</span>
+      <span class="footer-brand">健康之约</span>
+    </footer>
+  </div>
+</body>
+</html>

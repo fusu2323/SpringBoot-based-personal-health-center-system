@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原型 B - 霓虹暗夜风</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --card: #1a1a24;
+      --border: #2a2a3a;
+      --cyan: #00f5ff;
+      --magenta: #ff00aa;
+      --purple: #8b5cf6;
+      --green: #10b981;
+      --text: #e0e0e0;
+      --muted: #6b7280;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.1) 2px,
+        rgba(0, 0, 0, 0.1) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* Glow effects */
+    .glow-cyan { text-shadow: 0 0 20px var(--cyan), 0 0 40px var(--cyan); }
+    .glow-magenta { text-shadow: 0 0 20px var(--magenta), 0 0 40px var(--magenta); }
+    .glow-green { text-shadow: 0 0 20px var(--green), 0 0 40px var(--green); }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      margin-bottom: 60px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 200px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+    }
+
+    .logo {
+      font-family: 'Orbitron', monospace;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 4px;
+    }
+
+    .header-time {
+      font-family: 'Orbitron', monospace;
+      font-size: 14px;
+      color: var(--muted);
+      letter-spacing: 2px;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 80px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0,245,255,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-left h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .hero-left h1 .accent {
+      color: var(--cyan);
+    }
+
+    .hero-left h1 .highlight {
+      color: var(--magenta);
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 32px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, rgba(0,245,255,0.1) 0%, rgba(139,92,246,0.1) 100%);
+      border: 1px solid var(--cyan);
+      border-radius: 4px;
+      font-family: 'Orbitron', monospace;
+      font-size: 14px;
+      color: var(--cyan);
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      50% { opacity: 0.8; box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+    }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--cyan);
+    }
+
+    .stat-card:nth-child(2)::before { background: var(--magenta); }
+    .stat-card:nth-child(3)::before { background: var(--green); }
+
+    .stat-card:hover {
+      border-color: var(--cyan);
+      transform: translateX(8px);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-family: 'Orbitron', monospace;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .stat-value .unit {
+      font-size: 16px;
+      color: var(--muted);
+      margin-left: 8px;
+    }
+
+    .stat-change {
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .stat-change.positive { color: var(--green); }
+    .stat-change.negative { color: var(--magenta); }
+
+    /* Status Grid */
+    .status-section {
+      margin-bottom: 80px;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--cyan);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .section-title::before {
+      content: '//';
+      color: var(--muted);
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .status-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 28px;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .status-card:hover {
+      border-color: var(--purple);
+      box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+    }
+
+    .status-card.active {
+      border-color: var(--green);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+    }
+
+    .status-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid var(--purple);
+    }
+
+    .status-card.active .status-icon {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: var(--green);
+    }
+
+    .status-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--purple);
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    .status-card.active .status-icon svg {
+      stroke: var(--green);
+    }
+
+    .status-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .status-value {
+      font-family: 'Orbitron', monospace;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .status-value.done { color: var(--green); }
+    .status-value.pending { color: var(--muted); }
+
+    /* Report Section */
+    .report-section {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+
+    .report-main {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 32px;
+      position: relative;
+    }
+
+    .report-main::before {
+      content: 'AI';
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-family: 'Orbitron', monospace;
+      font-size: 11px;
+      color: var(--magenta);
+      padding: 4px 8px;
+      border: 1px solid var(--magenta);
+      border-radius: 4px;
+    }
+
+    .report-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .report-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--cyan);
+    }
+
+    .report-refresh {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .report-refresh:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .report-content {
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--text);
+    }
+
+    .report-content p { margin-bottom: 16px; }
+    .report-content strong {
+      color: var(--cyan);
+      font-weight: 600;
+    }
+
+    .report-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sidebar-stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar-stat::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+    }
+
+    .sidebar-stat-value {
+      font-family: 'Orbitron', monospace;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--cyan);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-stat-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+
+    /* Charts */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+
+    .chart-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .chart-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .chart-period {
+      font-size: 11px;
+      color: var(--muted);
+      padding: 4px 12px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    .chart-container {
+      height: 180px;
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      padding: 20px 0;
+      position: relative;
+    }
+
+    .chart-container::before {
+      content: '';
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .chart-bar {
+      flex: 1;
+      border-radius: 4px 4px 0 0;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .chart-bar::before {
+      content: attr(data-value);
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Orbitron', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .chart-bar:hover::before { opacity: 1; }
+
+    .chart-bar span {
+      position: absolute;
+      bottom: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .bp-chart .chart-bar {
+      background: linear-gradient(to top, var(--cyan), rgba(0,245,255,0.3));
+    }
+
+    .bp-chart .chart-bar:hover {
+      background: linear-gradient(to top, var(--cyan), rgba(0,245,255,0.8));
+      box-shadow: 0 0 20px rgba(0,245,255,0.5);
+    }
+
+    .sport-chart .chart-bar {
+      background: linear-gradient(to top, var(--magenta), rgba(255,0,170,0.3));
+    }
+
+    .sport-chart .chart-bar:hover {
+      background: linear-gradient(to top, var(--magenta), rgba(255,0,170,0.8));
+      box-shadow: 0 0 20px rgba(255,0,170,0.5);
+    }
+
+    /* Notice */
+    .notice-section { margin-bottom: 80px; }
+
+    .notice-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .notice-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .notice-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--purple), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .notice-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-4px);
+    }
+
+    .notice-card:hover::before { opacity: 1; }
+
+    .notice-date {
+      font-family: 'Orbitron', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .notice-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .notice-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-text {
+      font-family: 'Orbitron', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 2px;
+    }
+
+    .footer-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Orbitron', monospace;
+      font-size: 11px;
+      color: var(--green);
+    }
+
+    .footer-status::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .status-grid { grid-template-columns: repeat(2, 1fr); }
+      .report-section { grid-template-columns: 1fr; }
+      .charts-grid { grid-template-columns: 1fr; }
+      .notice-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">HEALTH<span style="color: var(--magenta);">.SYS</span></div>
+      <div class="header-time">2026.04.01 // 14:32:07</div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-left">
+        <h1>下午好，<span class="accent">朋友</span><br><span class="highlight">系统运行正常</span></h1>
+        <p class="hero-subtitle">生命体征监测中，当前状态优于基准线</p>
+        <div class="hero-badge">实时监测已启用</div>
+      </div>
+      <div class="hero-right">
+        <div class="stat-card">
+          <div class="stat-label">健康评分</div>
+          <div class="stat-value">87<span class="unit">/ 100</span></div>
+          <div class="stat-change positive">+12% 相比上周</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">连续记录</div>
+          <div class="stat-value">42<span class="unit">天</span></div>
+          <div class="stat-change positive">新纪录!</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">下次体检</div>
+          <div class="stat-value">3<span class="unit">天后</span></div>
+          <div class="stat-change negative">待确认</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Status -->
+    <section class="status-section">
+      <h2 class="section-title">今日状态</h2>
+      <div class="status-grid">
+        <div class="status-card active">
+          <div class="status-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <p class="status-label">身体指标</p>
+          <p class="status-value done">[已记录]</p>
+        </div>
+        <div class="status-card active">
+          <div class="status-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <p class="status-label">运动情况</p>
+          <p class="status-value done">[已记录]</p>
+        </div>
+        <div class="status-card">
+          <div class="status-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+          </div>
+          <p class="status-label">饮食情况</p>
+          <p class="status-value pending">[未记录]</p>
+        </div>
+        <div class="status-card active">
+          <div class="status-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </div>
+          <p class="status-label">睡眠情况</p>
+          <p class="status-value done">[已记录]</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Report -->
+    <section>
+      <h2 class="section-title">AI 健康分析</h2>
+      <div class="report-section">
+        <div class="report-main">
+          <div class="report-header">
+            <span class="report-title">每日简报生成中</span>
+            <button class="report-refresh">刷新数据</button>
+          </div>
+          <div class="report-content">
+            <p><strong>血压状况</strong>：当前血压 117/78 mmHg，处于理想范围。继续保持低盐饮食习惯。</p>
+            <p><strong>运动追踪</strong>：今日已完成 45 分钟有氧运动，消耗约 320 千卡。运动强度适中，符合您的健身计划。</p>
+            <p><strong>睡眠分析</strong>：昨晚睡眠时长 7.2 小时，但深睡眠占比仅 18%，建议提前 30 分钟入睡以提升睡眠质量。</p>
+            <p><strong>AI建议</strong>：继续保持当前的生活方式，您的健康指数稳步提升中。</p>
+          </div>
+        </div>
+        <div class="report-sidebar">
+          <div class="sidebar-stat">
+            <div class="sidebar-stat-value">7.2</div>
+            <div class="sidebar-stat-label">睡眠 / 小时</div>
+          </div>
+          <div class="sidebar-stat">
+            <div class="sidebar-stat-value">45</div>
+            <div class="sidebar-stat-label">运动 / 分钟</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section>
+      <h2 class="section-title">数据趋势</h2>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <span class="chart-title">血压变化</span>
+            <span class="chart-period">近7天</span>
+          </div>
+          <div class="chart-container bp-chart">
+            <div class="chart-bar" style="height: 65%;" data-value="120"><span>一</span></div>
+            <div class="chart-bar" style="height: 72%;" data-value="125"><span>二</span></div>
+            <div class="chart-bar" style="height: 68%;" data-value="118"><span>三</span></div>
+            <div class="chart-bar" style="height: 75%;" data-value="128"><span>四</span></div>
+            <div class="chart-bar" style="height: 70%;" data-value="122"><span>五</span></div>
+            <div class="chart-bar" style="height: 60%;" data-value="115"><span>六</span></div>
+            <div class="chart-bar" style="height: 62%;" data-value="117"><span>日</span></div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <span class="chart-title">运动时长</span>
+            <span class="chart-period">近7天</span>
+          </div>
+          <div class="chart-container sport-chart">
+            <div class="chart-bar" style="height: 45%;" data-value="30"><span>一</span></div>
+            <div class="chart-bar" style="height: 60%;" data-value="40"><span>二</span></div>
+            <div class="chart-bar" style="height: 30%;" data-value="20"><span>三</span></div>
+            <div class="chart-bar" style="height: 75%;" data-value="50"><span>四</span></div>
+            <div class="chart-bar" style="height: 90%;" data-value="60"><span>五</span></div>
+            <div class="chart-bar" style="height: 55%;" data-value="35"><span>六</span></div>
+            <div class="chart-bar" style="height: 40%;" data-value="25"><span>日</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notice -->
+    <section class="notice-section">
+      <h2 class="section-title">系统公告</h2>
+      <div class="notice-list">
+        <div class="notice-card">
+          <p class="notice-date">2026.03.28</p>
+          <h4 class="notice-title">新增睡眠分期分析</h4>
+          <p class="notice-desc">支持深睡、浅睡和快速眼动期详细数据查看。</p>
+        </div>
+        <div class="notice-card">
+          <p class="notice-date">2026.03.25</p>
+          <h4 class="notice-title">春季养生算法更新</h4>
+          <p class="notice-desc">AI建议已根据季节特点优化。</p>
+        </div>
+        <div class="notice-card">
+          <p class="notice-date">2026.03.20</p>
+          <h4 class="notice-title">设备同步优化</h4>
+          <p class="notice-desc">血压计连接稳定性提升。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span class="footer-text">HEALTH MONITORING SYSTEM v2.4.1</span>
+      <span class="footer-status">系统在线</span>
+    </footer>
+  </div>
+</body>
+</html>
