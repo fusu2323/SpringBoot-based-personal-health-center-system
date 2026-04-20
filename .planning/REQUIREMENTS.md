@@ -45,14 +45,14 @@ Requirements for thesis v1.1 — document all required sections and diagrams.
 | TH-01 | Phase 1 | Pending |
 | TH-02 | Phase 1 | Pending |
 | TH-03 | Phase 1 | Pending |
-| TH-04 | Phase 2 | Pending |
+| TH-04 | Phase 1 | Pending |
 | TH-05 | Phase 2 | Pending |
 | TH-06 | Phase 2 | Pending |
 | TH-07 | Phase 2 | Pending |
 | TH-08 | Phase 3 | Pending |
 | TH-09 | Phase 3 | Pending |
 | TH-10 | Phase 3 | Pending |
-| MG-01 | Phase 2 | Pending |
+| MG-01 | Phase 1 | Pending |
 | MG-02 | Phase 2 | Pending |
 | MG-03 | Phase 2 | Pending |
 | MG-04 | Phase 2 | Pending |
